@@ -8,13 +8,13 @@ function startListening() {
         document.getElementById('response').innerText = "You said: " + command;
 
         if (command.includes("your name")) {
-            respond("Naam mein kya rakha?");
+            speak("Naam mein kya rakha?");
         } else if (command.includes("make me laugh")) {
             fetch('http://localhost:5000/joke')
                 .then(response => response.json())
-                .then(data => respond(data.joke));
+                .then(data => speak(data.joke));
         } else {
-            respond("I didn't understand that.");
+            speak("I didn't understand that.");
         }
     };
 
@@ -23,6 +23,9 @@ function startListening() {
     };
 }
 
-function respond(message) {
+function speak(message) {
     document.getElementById('response').innerText = message;
+    const speech = new SpeechSynthesisUtterance(message);
+    speech.lang = "hi-IN"; // Hindi-like pronunciation
+    window.speechSynthesis.speak(speech);
 }
